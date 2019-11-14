@@ -244,7 +244,7 @@ WARNING: Using a local Studio. To use a Docker studio, use the -D argument.
 [HAB-STUDIO] Habitat:\src>
 ```
 
-Inside the studio, we'll run `build` which will us the default location of the plan file in `habitat/plan.ps1`:
+Inside the studio, we'll run `build` which will use the default location of the plan file in `habitat/plan.ps1`:
 
 ```shell
 [HAB-STUDIO] Habitat:\src> build
