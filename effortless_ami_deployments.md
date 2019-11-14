@@ -180,7 +180,7 @@ $pkg_origin="uship"
 $pkg_version="0.0.1"
 
 # Update this per your preferences
-$pkg_maintainer="Evan Machnic <uship@broadmac.net>"
+$pkg_maintainer="uShip, Inc. <devops@uship.com>"
 
 # We need these dependencies for our application to run
 $pkg_deps=@(
