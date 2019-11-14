@@ -167,7 +167,7 @@ PS C:\Users\uship\Projects\webserver> hab plan init -o uship
 ≡ An abode for your code is initialized!
 ```
 
-For the effortless infrastructure, we'll lean on the [Habita Scaffolding](https://www.habitat.sh/docs/glossary/#scaffolding) provided by the Habitat core team. You can see what the scaffolding is doing by looking in the [repository](https://github.com/chef/effortless/tree/master/scaffolding-chef-infra), but all we need to do is update the `habitat/plan.ps1` file:
+For the effortless infrastructure, we'll lean on the [Habitat Scaffolding](https://www.habitat.sh/docs/glossary/#scaffolding) provided by the Habitat core team. You can see what the scaffolding is doing by looking in the [repository](https://github.com/chef/effortless/tree/master/scaffolding-chef-infra), but all we need to do is update the `habitat/plan.ps1` file:
 
 ```powershell
 # This is the name of our Habitat package
