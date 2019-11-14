@@ -198,7 +198,7 @@ $scaffold_policy_name="Policyfile"
 $scaffold_policyfile_path="$PLAN_CONTEXT/../"
 ```
 
-The last thing we need to do before we can build our Habitat package is update the configuration for the Chef Client that will be running. Habitat's uses [Toml](https://github.com/toml-lang/toml) for configuration and the default config is in `habitat/default.toml`:
+The last thing we need to do before we can build our Habitat package is update the configuration for the Chef Client that will be running. Habitat uses [Toml](https://github.com/toml-lang/toml) for configuration and the default config is in `habitat/default.toml`:
 
 ```toml
 # Use this file to templatize your application's native configuration files.
