@@ -56,7 +56,7 @@ If you missed the session from ChefConf 2019, there's an excellent talk by David
 The first thing we need to do is generate a new cookbook. I'm going to deploy a cookbook that sets up IIS on a Windows server but the concepts should be similar if you're deploying Linux servers.
 
 ```shell
-$ chef generate cookbook webserver
+PS C:\Users\uship\Projects> chef generate cookbook webserver
 Generating cookbook webserver
 - Ensuring correct cookbook content
 - Committing cookbook files to git
@@ -67,8 +67,8 @@ Your cookbook is ready. To setup the pipeline, type `cd webserver`, then run `de
 Let's check out the content of the `webserver` cookbook:
 
 ```shell
-$ cd webserver
-$ tree
+PS C:\Users\uship\Projects> cd webserver
+PS C:\Users\uship\Projects\webserver> tree
 .
 ├── CHANGELOG.md
 ├── LICENSE
@@ -108,7 +108,7 @@ depends 'iis', '~> 7.2.0'
 We'll need to go ahead and install the dependencies. For this, we'll leverage Policyfiles. If you are unfamiliar, they're basically what replaces [Berkshelf](https://docs.chef.io/berkshelf.html) and environments/roles. Check out the [documentation](https://docs.chef.io/policyfile.html) but you should just need to run the following:
 
 ```shell
-$ chef install
+PS C:\Users\uship\Projects\webserver> chef install
 Building policy webserver
 Expanded run list: recipe[webserver::default]
 Caching Cookbooks...
@@ -116,7 +116,7 @@ Installing webserver >= 0.0.0 from path
 Installing iis       7.2.0
 Installing windows   6.0.1
 
-Lockfile written to /Users/emachnic/Documents/effortless_ami_deployments/webserver/Policyfile.lock.json
+Lockfile written to /Users/uship/Documents/effortless_ami_deployments/webserver/Policyfile.lock.json
 Policy revision id: c2746cac28e13e1dae4fa99f4b9f9d56e5b7bf11894f1cce1e8940a2f4de42c3
 ```
 
@@ -141,7 +141,7 @@ As I said earlier, the effortless infrastructure pattern leverages [Habitat](htt
 From the root of your cookbook directory, initialize the Habitat plan, using your [origin](https://www.habitat.sh/docs/using-builder/#create-an-origin-on-builder):
 
 ```shell
-$ hab plan init -o emachnic
+PS C:\Users\uship\Projects\webserver> hab plan init -o uship
 » Constructing a cozy habitat for your app...
 
 Ω Creating file: habitat/plan.ps1
@@ -174,13 +174,13 @@ For the effortless infrastructure, we'll lean on the [Habita Scaffolding](https:
 $pkg_name="webserver"
 
 # Update this with your origin
-$pkg_origin="emachnic"
+$pkg_origin="uship"
 
 # Package version. Typically follomws Semantic Versioning
 $pkg_version="0.0.1"
 
 # Update this per your preferences
-$pkg_maintainer="Evan Machnic <emachnic@broadmac.net>"
+$pkg_maintainer="Evan Machnic <uship@broadmac.net>"
 
 # We need these dependencies for our application to run
 $pkg_deps=@(
@@ -221,26 +221,26 @@ run_lock_timeout = 300
 Go ahead and remove the `habitat/config` and `habitat/hooks` directories as these aren't needed and tend to cause errors with the build:
 
 ```shell
-$ rmdir habitat/config
-$ rmdir habitat/hooks
+PS C:\Users\uship\Projects\webserver> rmdir habitat/config
+PS C:\Users\uship\Projects\webserver> rmdir habitat/hooks
 ```
 
 To build our Habitat package, we'll enter the Habitat studio. The studio is a clean room which only packages up the dependencies that have been specified and nothing else. 
 
 ```shell
-$ hab studio enter
+PS C:\Users\uship\Projects\webserver> hab studio enter
 WARNING: Using a local Studio. To use a Docker studio, use the -D argument.
-   hab-studio: Creating Studio at C:\hab\studios\Users--emachnic--Projects--webserver
+   hab-studio: Creating Studio at C:\hab\studios\Users--uship--Projects--webserver
 » Importing origin key from standard input
-≡ Imported public origin key emachnic-20190919164651.
+≡ Imported public origin key uship-20190919164651.
 » Importing origin key from standard input
-≡ Imported secret origin key emachnic-20190919164651.
+≡ Imported secret origin key uship-20190919164651.
 ** The Habitat Supervisor has been started in the background.
 ** Use 'hab svc start' and 'hab svc stop' to start and stop services.
 ** Use the 'Get-SupervisorLog' command to stream the Supervisor log.
 ** Use the 'Stop-Supervisor' to terminate the Supervisor.
 
-   hab-studio: Entering Studio at C:\hab\studios\Users--emachnic--Projects--webserver
+   hab-studio: Entering Studio at C:\hab\studios\Users--uship--Projects--webserver
 [HAB-STUDIO] Habitat:\src>
 ```
 
@@ -248,7 +248,7 @@ Inside the studio, we'll run `build` which will us the default location of the p
 
 ```shell
 [HAB-STUDIO] Habitat:\src> build
-   : Loading C:\hab\studios\Users--emachnic--Projects--webserver\src\habitat\plan.ps1
+   : Loading C:\hab\studios\Users--uship--Projects--webserver\src\habitat\plan.ps1
    webserver: Plan loaded
    webserver: Validating plan metadata
    webserver: hab-plan-build.ps1 setup
@@ -258,13 +258,13 @@ Inside the studio, we'll run `build` which will us the default location of the p
 ⌂ Determining latest version of chef/scaffolding-chef-infra in the 'stable' channel
 → Using chef/scaffolding-chef-infra/0.16.0/20191028151207
 ≡ Install of chef/scaffolding-chef-infra/0.16.0/20191028151207 complete with 0 new packages installed.
-   webserver: Resolved scaffolding dependency 'chef/scaffolding-chef-infra' to C:\hab\studios\Users--emachnic--Projects--webserver\hab\pkgs\chef\scaffolding-chef-infra\0.16.0\20191028151207
-   webserver: Loading Scaffolding C:\hab\studios\Users--emachnic--Projects--webserver\hab\pkgs\chef\scaffolding-chef-infra\0.16.0\20191028151207/lib/scaffolding.ps1
+   webserver: Resolved scaffolding dependency 'chef/scaffolding-chef-infra' to C:\hab\studios\Users--uship--Projects--webserver\hab\pkgs\chef\scaffolding-chef-infra\0.16.0\20191028151207
+   webserver: Loading Scaffolding C:\hab\studios\Users--uship--Projects--webserver\hab\pkgs\chef\scaffolding-chef-infra\0.16.0\20191028151207/lib/scaffolding.ps1
 » Installing chef/scaffolding-chef-infra
 ⌂ Determining latest version of chef/scaffolding-chef-infra in the 'stable' channel
 → Using chef/scaffolding-chef-infra/0.16.0/20191028151207
 ≡ Install of chef/scaffolding-chef-infra/0.16.0/20191028151207 complete with 0 new packages installed.
-   webserver: Resolved build dependency 'chef/scaffolding-chef-infra' to C:\hab\studios\Users--emachnic--Projects--webserver\hab\pkgs\chef\scaffolding-chef-infra\0.16.0\20191028151207
+   webserver: Resolved build dependency 'chef/scaffolding-chef-infra' to C:\hab\studios\Users--uship--Projects--webserver\hab\pkgs\chef\scaffolding-chef-infra\0.16.0\20191028151207
 » Installing core/chef-dk/2.5.3/20180416182816
 → Using core/chef-dk/2.5.3/20180416182816
 .
@@ -279,17 +279,17 @@ Installing webserver >= 0.0.0 from path
 Using      iis       7.2.0
 Using      windows   6.0.1
 
-Lockfile written to C:/hab/studios/Users--emachnic--Projects--webserver/src/Policyfile.lock.json
+Lockfile written to C:/hab/studios/Users--uship--Projects--webserver/src/Policyfile.lock.json
 Policy revision id: f8a3f2d55e079328c164d2c0250854348cdb7900e89c4c8e9cbe155825d7635b
    webserver: Installing
-Exported policy 'webserver' to C:\hab\studios\Users--emachnic--Projects--webserver\hab\pkgs\emachnic\webserver\0.0.1\20191114064617
+Exported policy 'webserver' to C:\hab\studios\Users--uship--Projects--webserver\hab\pkgs\uship\webserver\0.0.1\20191114064617
 
 To converge this system with the exported policy, run:
-  cd C:\hab\studios\Users--emachnic--Projects--webserver\hab\pkgs\emachnic\webserver\0.0.1\20191114064617
+  cd C:\hab\studios\Users--uship--Projects--webserver\hab\pkgs\uship\webserver\0.0.1\20191114064617
   chef-client -z
 
 
-    Directory: C:\hab\studios\Users--emachnic--Projects--webserver\hab\pkgs\emachnic\webserver\0.0.1\20191114064617
+    Directory: C:\hab\studios\Users--uship--Projects--webserver\hab\pkgs\uship\webserver\0.0.1\20191114064617
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
@@ -300,15 +300,15 @@ d-----        11/14/2019  6:47 AM                hooks
    webserver: Creating manifest
    webserver: Building package metadata
    webserver: Generating package artifact
-» Signing C:\hab\studios\Users--emachnic--Projects--webserver\hab\cache\artifacts\.emachnic-webserver-0.0.1-20191114064617-x86_64-windows.tar.xz
-→ Signing C:\hab\studios\Users--emachnic--Projects--webserver\hab\cache\artifacts\.emachnic-webserver-0.0.1-20191114064617-x86_64-windows.tar.xz with emachnic-20190919164651 to create C:\hab\studios\Users--emachnic--Projects--webserver\hab\cache\artifacts\emachnic-webserver-0.0.1-20191114064617-x86_64-windows.hart
-≡ Signed artifact C:\hab\studios\Users--emachnic--Projects--webserver\hab\cache\artifacts\emachnic-webserver-0.0.1-20191114064617-x86_64-windows.hart.
+» Signing C:\hab\studios\Users--uship--Projects--webserver\hab\cache\artifacts\.uship-webserver-0.0.1-20191114064617-x86_64-windows.tar.xz
+→ Signing C:\hab\studios\Users--uship--Projects--webserver\hab\cache\artifacts\.uship-webserver-0.0.1-20191114064617-x86_64-windows.tar.xz with uship-20190919164651 to create C:\hab\studios\Users--uship--Projects--webserver\hab\cache\artifacts\uship-webserver-0.0.1-20191114064617-x86_64-windows.hart
+≡ Signed artifact C:\hab\studios\Users--uship--Projects--webserver\hab\cache\artifacts\uship-webserver-0.0.1-20191114064617-x86_64-windows.hart.
    webserver: hab-plan-build.ps1 cleanup
    webserver:
-   webserver: Source Cache: C:\hab\studios\Users--emachnic--Projects--webserver\hab\cache\src\webserver-0.0.1
-   webserver: Installed Path: C:\hab\studios\Users--emachnic--Projects--webserver\hab\pkgs\emachnic\webserver\0.0.1\20191114064617
-   webserver: Artifact: C:\hab\studios\Users--emachnic--Projects--webserver\src\results\emachnic-webserver-0.0.1-20191114064617-x86_64-windows.hart
-   webserver: Build Report: C:\hab\studios\Users--emachnic--Projects--webserver\src\results\last_build.ps1
+   webserver: Source Cache: C:\hab\studios\Users--uship--Projects--webserver\hab\cache\src\webserver-0.0.1
+   webserver: Installed Path: C:\hab\studios\Users--uship--Projects--webserver\hab\pkgs\uship\webserver\0.0.1\20191114064617
+   webserver: Artifact: C:\hab\studios\Users--uship--Projects--webserver\src\results\uship-webserver-0.0.1-20191114064617-x86_64-windows.hart
+   webserver: Build Report: C:\hab\studios\Users--uship--Projects--webserver\src\results\last_build.ps1
    webserver: SHA256 Checksum:
    webserver: Blake2b Checksum:
    webserver:
@@ -319,16 +319,16 @@ d-----        11/14/2019  6:47 AM                hooks
 If everything is successful, the newly-built package will be in the `results` directory. Let's go ahead and push it to the [Habitat Bldr Service](https://bldr.habitat.sh/). We can use the `results/last_build.ps1` file to set variables so we don't need to specify the full path to the artifact. Note that you'll need to make sure your [auth token](https://www.habitat.sh/docs/using-builder/#builder-token) is set up.
 
 ```shell
-PS C:\Users\emachnic\Projects\webserver\results> . .\last_build.ps1
-PS C:\Users\emachnic\Projects\webserver\results> hab pkg upload $pkg_artifact
+PS C:\Users\uship\Projects\webserver\results> . .\last_build.ps1
+PS C:\Users\uship\Projects\webserver\results> hab pkg upload $pkg_artifact
     79 B / 79 B | [=====================================================================================================================================================================================] 100.00 % 654 B/s
-→ Using existing public origin key emachnic-20190919164651.pub
+→ Using existing public origin key uship-20190919164651.pub
 → Using existing core/cacerts/2019.08.28/20190829172945
 → Using existing stuartpreston/chef-client/14.11.21/20190328012639
-↑ Uploading emachnic-webserver-0.0.1-20191114064617-x86_64-windows.hart
+↑ Uploading uship-webserver-0.0.1-20191114064617-x86_64-windows.hart
     70.89 KB / 70.89 KB | [===========================================================================================================================================================================] 100.00 % 1.45 MB/s
-√ Uploaded emachnic/webserver/0.0.1/20191114064617
-≡ Upload of emachnic/webserver/0.0.1/20191114064617 complete.
+√ Uploaded uship/webserver/0.0.1/20191114064617
+≡ Upload of uship/webserver/0.0.1/20191114064617 complete.
 ```
 
-You should now have a public "webserver" package available in the "unstable" channel of your Habitat origin. In the next part of this blog post series, we'll build an AMI and deploy our new package to a server using that AMI.
+You should now have a public "webserver" package available in the "unstable" channel of your Habitat origin. In the next part of this blog post series, we'll build an AMI and deploy our new package to a server using that AMI. If you want to see the code for this, it's available at [https://github.com/uShip/effortless_ami_deployments](https://github.com/uShip/effortless_ami_deployments).
