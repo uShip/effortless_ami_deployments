@@ -331,4 +331,4 @@ PS C:\Users\uship\Projects\webserver\results> hab pkg upload $pkg_artifact
 ≡ Upload of uship/webserver/0.0.1/20191114064617 complete.
 ```
 
-You should now have a public "webserver" package available in the "unstable" channel of your Habitat origin. In the next part of this blog post series, we'll build an AMI and deploy our new package to a server using that AMI. If you want to see the code for this, it's available at [https://github.com/uShip/effortless_ami_deployments](https://github.com/uShip/effortless_ami_deployments).
+You should now have a public "webserver" package available in the "unstable" channel of your Habitat origin. In the next part of this blog post series, we'll build an AMI and deploy our new package to a server using that AMI. If you want to see the code for this, it's available at [https://github.com/uShip/effortless_ami_deployments](https://github.com/uShip/effortless_ami_deployments) and the Habitat package is at [https://bldr.habitat.sh/#/pkgs/uship/webserver](https://bldr.habitat.sh/#/pkgs/uship/webserver).
