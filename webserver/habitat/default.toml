@@ -1,0 +1,15 @@
+# Use this file to templatize your application's native configuration files.
+# See the docs at https://www.habitat.sh/docs/create-packages-configure/.
+# You can safely delete this file if you don't need it.
+
+# Run the Chef Client every 5 minutes
+interval = 300
+
+# Offset the Chef Client runs by 30 seconds
+splay = 30
+
+# No offset for the first run
+splay_first_run = 0
+
+# Wait for Chef Client run lock file to be deleted
+run_lock_timeout = 300
